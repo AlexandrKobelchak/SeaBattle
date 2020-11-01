@@ -52,10 +52,10 @@ namespace SeaLibrary
                     gr.FillRectangle(Brushes.Green, rect);
                     return;
                 case CellStatus.Ship:
-                    //if(IsMyShips)
+                    if(IsMyShips)
                         gr.FillRectangle(Brushes.Red, rect);
-                    //else
-                    //    gr.FillRectangle(Brushes.Green, rect);
+                    else
+                        gr.FillRectangle(Brushes.Green, rect);
                     return;
                 case CellStatus.Killed:
                     gr.FillRectangle(Brushes.Black, rect);

@@ -8,24 +8,13 @@ using System.Threading.Tasks;
 
 namespace SeaBattleGame
 {
-    public enum CellStatus { Empty, Ship, Strelano, Popal,  Killed };
+    public enum CellStatus { Empty, Ship, Strelano, Popal, Killed };
 
     public class GameField
     {
         Random rand = new Random();
 
-        private CellStatus[,] _field = new CellStatus[10, 10] {
-            { CellStatus.Ship,  CellStatus.Empty,CellStatus.Killed, CellStatus.Empty,CellStatus.Strelano,CellStatus.Empty,CellStatus.Popal,CellStatus.Empty,CellStatus.Ship, CellStatus.Ship },
-            { CellStatus.Empty, CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-            { CellStatus.Ship,  CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-            { CellStatus.Ship,  CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-            { CellStatus.Ship,  CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-            { CellStatus.Ship,  CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-            { CellStatus.Empty, CellStatus.Empty,CellStatus.Ship, CellStatus.Ship, CellStatus.Ship, CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-            { CellStatus.Empty, CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-            { CellStatus.Ship,  CellStatus.Ship, CellStatus.Ship, CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-            { CellStatus.Empty, CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty,CellStatus.Empty},
-        };
+        private CellStatus[,] _field = new CellStatus[10, 10];
 
         public CellStatus this[int x, int y]
         {
@@ -146,20 +135,6 @@ namespace SeaBattleGame
             _field[x + 3 * (1 - r), y + 3 * r] = CellStatus.Ship;
         }
 
-        //public bool Babax(int x, int y)
-        //{
-        //    switch (_field[x, y])
-        //    {
-        //        case CellStatus.Empty:
-        //            _field[x, y] = CellStatus.Strelano;
-        //            return true;
-        //        case CellStatus.Ship:
-        //            _field[x, y] = CellStatus.Popal;
-        //            return true;
-        //    }
-        //    return false;
-        //}
-
         public bool Babax(int i, int j)
         {
 
@@ -214,7 +189,6 @@ namespace SeaBattleGame
                         return false;//ОДНОЗНАЧНО РАНИЛ
                     }
 
-
             //Проверка не убит ли однопалубный, в принципе не нужна, но оставлена				
             for (int n = i - 1; n <= i + 1; n++)
                 for (int k = j - 1; k <= j + 1; k++)
@@ -232,7 +206,9 @@ namespace SeaBattleGame
             //Проверяем две палубы влево
             if (i > 1)
                 if (_field[i - 1, j] == CellStatus.Ship || _field[i - 1, j] == CellStatus.Popal)
-                    if (_field[i - 2, j] == CellStatus.Ship) return false;
+                    if (_field[i - 2, j] == CellStatus.Ship) 
+                        return false;
+
             //Проверяем третью палубу
             if (i > 2)
                 if (_field[i - 2, j] == CellStatus.Popal)
@@ -242,111 +218,108 @@ namespace SeaBattleGame
             //Проверяем две палубы вправо
 
             if (i < 8)
-                if (_field[i + 1,j]==CellStatus.Ship || _field[i + 1,j] == CellStatus.Popal)
-                    if (_field[i + 2,j] == CellStatus.Ship) return false;
+                if (_field[i + 1, j] == CellStatus.Ship || _field[i + 1, j] == CellStatus.Popal)
+                    if (_field[i + 2, j] == CellStatus.Ship) 
+                        return false;
             //Проверяем третью палубу
             if (i < 7)
                 if (_field[i + 2, j] == CellStatus.Popal)
-                    if (_field[i + 3,j] == CellStatus.Ship) return false;
+                    if (_field[i + 3, j] == CellStatus.Ship) 
+                        return false;
 
 
             //Проверяем две палубы вверх
             if (j > 1)
-                if (_field[i,j - 1] == CellStatus.Ship || _field[i,j - 1] == CellStatus.Popal)
-                    if (_field[i,j - 2] == CellStatus.Ship) return false;
+                if (_field[i, j - 1] == CellStatus.Ship || _field[i, j - 1] == CellStatus.Popal)
+                    if (_field[i, j - 2] == CellStatus.Ship) 
+                        return false;
             //Проверяем третью палубу
             if (j > 2)
-                if (_field[i,j - 2] == CellStatus.Popal)
-                    if (_field[i,j - 3] == CellStatus.Ship) return false;
+                if (_field[i, j - 2] == CellStatus.Popal)
+                    if (_field[i, j - 3] == CellStatus.Ship) 
+                        return false;
 
             //Проверяем две палубы вниз
             if (j < 8)
-                if (_field[i,j + 1] == CellStatus.Ship || _field[i,j + 1] == CellStatus.Popal)
-                    if (_field[i,j + 2] == CellStatus.Ship) return false;
+                if (_field[i, j + 1] == CellStatus.Ship || _field[i, j + 1] == CellStatus.Popal)
+                    if (_field[i, j + 2] == CellStatus.Ship) 
+                        return false;
             //Проверяем третью палубу
             if (j < 7)
-                if (_field[i,j + 2] == CellStatus.Popal)
-                    if (_field[i,j + 3] == CellStatus.Ship) return false;
-
-
-
-
+                if (_field[i, j + 2] == CellStatus.Popal)
+                    if (_field[i, j + 3] == CellStatus.Ship) 
+                        return false;
 
             return true;
         }
 
         void OnPaintKilled(int i, int j)
         {
-            if (_field[i,j] == CellStatus.Popal) _field[i,j]=CellStatus.Killed;
+            if (_field[i, j] == CellStatus.Popal)
+            {
+                _field[i, j] = CellStatus.Killed;
+            }
 
             for (int n = i - 1; n <= i + 1; n++)
                 for (int k = j - 1; k <= j + 1; k++)
                 {
-                    if (n < 10 && k < 10 && n >= 0 && k >= 0 && _field[n,k]==CellStatus.Empty)
-                        _field[n,k]=CellStatus.Strelano;
+                    if (n < 10 && k < 10 && n >= 0 && k >= 0 && _field[n, k] == CellStatus.Empty)
+                        _field[n, k] = CellStatus.Strelano;
 
                     if (n < 10 && k < 10 && n >= 0 && k >= 0 && _field[n, k] == CellStatus.Popal)
-                        _field[n,k] = CellStatus.Killed;
+                        _field[n, k] = CellStatus.Killed;
 
                 }
-
-
         }
-
 
         void PaintKilled(int i, int j)
         {
-
             OnPaintKilled(i, j);
 
-            return;
-
-
-            if (i > 1 && (_field[i - 1,j]==CellStatus.Strelano || _field[i - 1,j]==CellStatus.Killed))
+            if (i > 1 && (_field[i - 1, j] == CellStatus.Popal || _field[i - 1, j] == CellStatus.Killed))
             {
                 OnPaintKilled(i - 1, j);
-                if (i > 2 && (_field[i - 2,j]==CellStatus.Strelano || _field[i - 2,j]==CellStatus.Killed))
+
+                if (i > 2 && (_field[i - 2, j] == CellStatus.Popal || _field[i - 2, j] == CellStatus.Killed))
                 {
                     OnPaintKilled(i - 2, j);
-                    if (i > 3 && (_field[i - 3,j]==CellStatus.Strelano || _field[i - 3,j]==CellStatus.Killed))
+                    if (i > 3 && (_field[i - 3, j] == CellStatus.Popal || _field[i - 3, j] == CellStatus.Killed))
                         OnPaintKilled(i - 3, j);
                 }
             }
 
-            if (i < 8 && (_field[i + 1,j]==CellStatus.Strelano || _field[i + 1,j]==CellStatus.Killed))
+            if (i < 8 && (_field[i + 1, j] == CellStatus.Popal || _field[i + 1, j] == CellStatus.Killed))
             {
                 OnPaintKilled(i + 1, j);
-                if (i < 7 && (_field[i + 2,j]==CellStatus.Strelano || _field[i + 2,j]==CellStatus.Killed))
+                if (i < 7 && (_field[i + 2, j] == CellStatus.Popal || _field[i + 2, j] == CellStatus.Killed))
                 {
                     OnPaintKilled(i + 2, j);
-                    if (i < 6 && (_field[i + 3,j]==CellStatus.Strelano || _field[i + 3,j]==CellStatus.Killed))
+                    if (i < 6 && (_field[i + 3, j] == CellStatus.Popal || _field[i + 3, j] == CellStatus.Killed))
                         OnPaintKilled(i + 3, j);
                 }
             }
 
-            if (j > 1 && (_field[i,j - 1]==CellStatus.Strelano || _field[i,j - 1]==CellStatus.Killed))
+            if (j > 1 && (_field[i, j - 1] == CellStatus.Popal || _field[i, j - 1] == CellStatus.Killed))
             {
                 OnPaintKilled(i, j - 1);
-                if (j > 2 && (_field[i,j - 2]==CellStatus.Strelano || _field[i,j - 2]==CellStatus.Killed))
+                if (j > 2 && (_field[i, j - 2] == CellStatus.Popal || _field[i, j - 2] == CellStatus.Killed))
                 {
                     OnPaintKilled(i, j - 2);
-                    if (j > 3 && (_field[i,j - 3]==CellStatus.Strelano || _field[i,j - 3]==CellStatus.Killed))
+                    if (j > 3 && (_field[i, j - 3] == CellStatus.Popal || _field[i, j - 3] == CellStatus.Killed))
                         OnPaintKilled(i, j - 3);
                 }
             }
 
-            if (j < 8 && (_field[i,j + 1]==CellStatus.Strelano || _field[i,j + 1]==CellStatus.Killed))
+            if (j < 8 && (_field[i, j + 1] == CellStatus.Popal || _field[i, j + 1] == CellStatus.Killed))
             {
                 OnPaintKilled(i, j + 1);
-                if (j < 7 && (_field[i,j + 2]==CellStatus.Strelano || _field[i,j + 2]==CellStatus.Killed))
+                if (j < 7 && (_field[i, j + 2] == CellStatus.Popal || _field[i, j + 2] == CellStatus.Killed))
                 {
                     OnPaintKilled(i, j + 2);
-                    if (j < 6 && (_field[i,j + 3]==CellStatus.Strelano || _field[i,j + 3]==CellStatus.Killed))
+                    if (j < 6 && (_field[i, j + 3] == CellStatus.Popal || _field[i, j + 3] == CellStatus.Killed))
                         OnPaintKilled(i, j + 3);
                 }
             }
         }
-
-
     }
 }
